@@ -1,19 +1,16 @@
 import os
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy  # If you're planning to use SQLAlchemy
-
-print(f"Secret Key: {app.config['SECRET_KEY']}")
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('FLASK_APP_SECRET_KEY')  # Load secret key from environment variable
+app.config['SECRET_KEY'] = os.environ.get('FLASK_APP_SECRET_KEY')
 
-# SQLAlchemy Configuration (if you're using it)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///yourdatabase.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Import routes
-import routes
-
 if __name__ == "__main__":
     app.run(debug=True)
+
+# Import routes after 'app' is defined
+import routes

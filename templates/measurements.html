@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Measurements</title>
+</head>
+<body>
+    <h1>Measurement Form</h1>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        {% for field in form %}
+            <div>
+                {{ field.label }}<br>
+                {{ field(size=20) }}<br>
+                {% if field.errors %}
+                    <ul class="errors">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+</body>
+</html>

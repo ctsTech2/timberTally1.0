@@ -1,7 +1,8 @@
 import logging
 import sys
-from app import app
+from app import app, db
 from forms import MeasurementForm
+from models import Measurement
 from flask import render_template, redirect, url_for
 
 # Configure the Flask logger to write to stdout
@@ -21,12 +22,32 @@ def measurements():
         form_data = form.data  # This is a dictionary of the form data
         app.logger.info(f"Form is valid: {form_data}")  # Log the form data when the form is valid
 
-        # You can also access individual fields like this:
-        # Assuming your form has fields named 'field1', 'field2', etc.
-        for field in form:
-            app.logger.info(f"{field.label.text}: {field.data}")
+        # Create a new Measurement instance
+        measurement = Measurement(
+            footings_lf=form.footings_lf.data,
+            foundation_lf=form.foundation_lf.data,
+            garage_sf=form.garage_sf.data,
+            basement_sf=form.basement_sf.data,
+            living_area_sf=form.living_area_sf.data,
+            garage_wall_lf=form.garage_wall_lf.data,
+            outside_wall_lf=form.outside_wall_lf.data,
+            common_wall_lf=form.common_wall_lf.data,
+            plumbing_wall_lf=form.plumbing_wall_lf.data,
+            interior_wall_lf=form.interior_wall_lf.data,
+            outside_wall_sf=form.outside_wall_sf.data,
+            gable_sf=form.gable_sf.data,
+            roof_perimeter_lf=form.roof_perimeter_lf.data,
+            roof_sf=form.roof_sf.data
+        )
+        db.session.add(measurement)
+        db.session.commit()
 
         return redirect(url_for('index'))  # Redirect to another route after submission
     else:
         app.logger.info(f"Form is not valid: {form.errors}")  # Log the form errors when the form is not valid
     return render_template('measurements.html', form=form)
+
+@app.route('/projects')
+def projects():
+    measurements = Measurement.query.all()
+    return render_template('projects.html', measurements=measurements)

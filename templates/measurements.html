@@ -2,29 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enter Measurements</title>
+    <title>Measurements</title>
 </head>
 <body>
-    <h1>Measurement Form</h1>
-    <form method="post">
-        {{ form.hidden_tag() }}
-        {% for field in form %}
-            <div>
-                {{ field.label }}<br>
-                {{ field(size=20) }}<br>
-                {% if field.errors %}
-                    <ul class="errors">
-                        {% for error in field.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
-        {% endfor %}
-        <div>
-            <input type="submit" value="Submit">
-        </div>
+    <h1>Enter Measurements</h1>
+    <form method="POST">
+        {{ form.csrf_token }}
+        <p>{{ form.footings_lf.label }} {{ form.footings_lf() }}</p>
+        <p>{{ form.foundation_lf.label }} {{ form.foundation_lf() }}</p>
+        <p>{{ form.garage_sf.label }} {{ form.garage_sf() }}</p>
+        <p>{{ form.basement_sf.label }} {{ form.basement_sf() }}</p>
+        <p>{{ form.living_area_sf.label }} {{ form.living_area_sf() }}</p>
+        <p>{{ form.garage_wall_lf.label }} {{ form.garage_wall_lf() }}</p>
+        <p>{{ form.outside_wall_lf.label }} {{ form.outside_wall_lf() }}</p>
+        <p>{{ form.common_wall_lf.label }} {{ form.common_wall_lf() }}</p>
+        <p>{{ form.plumbing_wall_lf.label }} {{ form.plumbing_wall_lf() }}</p>
+        <p>{{ form.interior_wall_lf.label }} {{ form.interior_wall_lf() }}</p>
+        <p>{{ form.outside_wall_sf.label }} {{ form.outside_wall_sf() }}</p>
+        <p>{{ form.gable_sf.label }} {{ form.gable_sf() }}</p>
+        <p>{{ form.roof_perimeter_lf.label }} {{ form.roof_perimeter_lf() }}</p>
+        <p>{{ form.roof_sf.label }} {{ form.roof_sf() }}</p>
+        <p>{{ form.submit() }}</p>
     </form>
 </body>
 </html>

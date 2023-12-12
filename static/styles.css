@@ -1,0 +1,9 @@
+.project-name {
+    cursor: pointer;
+    color: #007BFF; /* This is a blue color */
+}
+
+.project-name:hover {
+    text-decoration: underline;
+    color: #0056b3; /* This is a darker blue color */
+}

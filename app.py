@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('FLASK_APP_SECRET_KEY')
 
 # Use SQLite for this example, replace with your actual database URI
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///lumberdata.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////var/lib/lumberdata/lumberdata.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Add the SQLALCHEMY_ECHO setting

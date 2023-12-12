@@ -3,27 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Projects</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function toggleMeasurements(id) {
+            var measurements = document.getElementById(id);
+            if (measurements.style.display === "none") {
+                measurements.style.display = "block";
+            } else {
+                measurements.style.display = "none";
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>Projects</h1>
     {% for project in projects %}
-        <h2>{{ project.name }}</h2>
-        {% for measurement in project.measurements %}
-            <p>Footings LF: {{ measurement.footings_lf }}</p>
-            <p>Foundation LF: {{ measurement.foundation_lf }}</p>
-            <p>Garage SF: {{ measurement.garage_sf }}</p>
-            <p>Basement SF: {{ measurement.basement_sf }}</p>
-            <p>Living Area SF: {{ measurement.living_area_sf }}</p>
-            <p>Garage Wall LF: {{ measurement.garage_wall_lf }}</p>
-            <p>Outside Wall LF: {{ measurement.outside_wall_lf }}</p>
-            <p>Common Wall LF: {{ measurement.common_wall_lf }}</p>
-            <p>Plumbing Wall LF: {{ measurement.plumbing_wall_lf }}</p>
-            <p>Interior Wall LF: {{ measurement.interior_wall_lf }}</p>
-            <p>Outside Wall SF: {{ measurement.outside_wall_sf }}</p>
-            <p>Gable SF: {{ measurement.gable_sf }}</p>
-            <p>Roof Perimeter LF: {{ measurement.roof_perimeter_lf }}</p>
-            <p>Roof SF: {{ measurement.roof_sf }}</p>
-        {% endfor %}
+        <h2 class="project-name" onclick="toggleMeasurements('{{ project.id }}')">{{ project.name }}</h2>
+        <div id="{{ project.id }}" style="display: none;">
+            {% for measurement in project.measurements %}
+                <p>Footings LF: {{ measurement.footings_lf }}</p>
+                <p>Foundation LF: {{ measurement.foundation_lf }}</p>
+                <p>Garage SF: {{ measurement.garage_sf }}</p>
+                <p>Basement SF: {{ measurement.basement_sf }}</p>
+                <p>Living Area SF: {{ measurement.living_area_sf }}</p>
+                <p>Garage Wall LF: {{ measurement.garage_wall_lf }}</p>
+                <p>Outside Wall LF: {{ measurement.outside_wall_lf }}</p>
+                <p>Common Wall LF: {{ measurement.common_wall_lf }}</p>
+                <p>Plumbing Wall LF: {{ measurement.plumbing_wall_lf }}</p>
+                <p>Interior Wall LF: {{ measurement.interior_wall_lf }}</p>
+                <p>Outside Wall SF: {{ measurement.outside_wall_sf }}</p>
+                <p>Gable SF: {{ measurement.gable_sf }}</p>
+                <p>Roof Perimeter LF: {{ measurement.roof_perimeter_lf }}</p>
+                <p>Roof SF: {{ measurement.roof_sf }}</p>
+            {% endfor %}
+        </div>
     {% endfor %}
 </body>
 </html>

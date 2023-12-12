@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import FloatField, SubmitField
+from wtforms import FloatField, StringField, SubmitField
+from wtforms.validators import DataRequired
 
 class MeasurementForm(FlaskForm):
     footings_lf = FloatField('Footings (linear feet)')
@@ -18,3 +19,6 @@ class MeasurementForm(FlaskForm):
     roof_sf = FloatField('Roof (square feet)')
     submit = SubmitField('Submit')
 
+class ProjectForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    submit = SubmitField('Add Project')

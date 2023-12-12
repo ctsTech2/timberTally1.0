@@ -1,8 +1,8 @@
 import logging
 import sys
 from app import app, db
-from forms import MeasurementForm
-from models import Measurement
+from forms import MeasurementForm, ProjectForm  # Import the ProjectForm
+from models import Measurement, Project
 from flask import render_template, redirect, url_for
 
 # Configure the Flask logger to write to stdout
@@ -49,5 +49,15 @@ def measurements():
 
 @app.route('/projects')
 def projects():
-    measurements = Measurement.query.all()
-    return render_template('projects.html', measurements=measurements)
+    projects = Project.query.all()  # Query the Project objects
+    return render_template('projects.html', projects=projects)  # Pass the projects to the template
+
+@app.route('/add_project', methods=['GET', 'POST'])
+def add_project():
+    form = ProjectForm()
+    if form.validate_on_submit():
+        project = Project(name=form.name.data)
+        db.session.add(project)
+        db.session.commit()
+        return redirect(url_for('projects'))
+    return render_template('add_project.html', form=form)

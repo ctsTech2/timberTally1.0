@@ -4,6 +4,7 @@ from app import app, db
 from forms import MeasurementForm, ProjectForm
 from models import Measurement, Project
 from flask import render_template, redirect, url_for
+from sqlalchemy.orm import joinedload
 
 # Configure the Flask logger to write to stdout
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
@@ -55,3 +56,14 @@ def add_project():
         db.session.commit()
         return redirect(url_for('measurements', project_id=project.id))
     return render_template('add_project.html', form=form)
+
+@app.route('/delete_project/<int:id>', methods=['POST'])
+def delete_project(id):
+    project = Project.query.get(id)
+    if project:
+        measurements = Measurement.query.filter_by(project_id=id).all()
+        for measurement in measurements:
+            db.session.delete(measurement)
+        db.session.delete(project)
+        db.session.commit()
+    return redirect(url_for('projects'))

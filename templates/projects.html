@@ -1,23 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Projects</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script>
-        function toggleMeasurements(id) {
-            var measurements = document.getElementById(id);
-            if (measurements.style.display === "none") {
-                measurements.style.display = "block";
-            } else {
-                measurements.style.display = "none";
-            }
-        }
-    </script>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
     <h1>Projects</h1>
     {% for project in projects %}
+        <!-- Debug line to print out the project id -->
+        <!-- <p>Project ID: {{ project.id }}</p> -->
         <h2 class="project-name" onclick="toggleMeasurements('{{ project.id }}')">{{ project.name }}</h2>
         <div id="{{ project.id }}" style="display: none;">
             {% for measurement in project.measurements %}
@@ -34,9 +20,22 @@
                 <p>Outside Wall SF: {{ measurement.outside_wall_sf }}</p>
                 <p>Gable SF: {{ measurement.gable_sf }}</p>
                 <p>Roof Perimeter LF: {{ measurement.roof_perimeter_lf }}</p>
-                <p>Roof SF: {{ measurement.roof_sf }}</p>
+            <p>Roof SF: {{ measurement.roof_sf }}</p>
             {% endfor %}
         </div>
+        <form action="{{ url_for('delete_project', id=project.id) }}" method="POST">
+            <input type="submit" value="Delete">
+        </form>
     {% endfor %}
-</body>
-</html>
+    <script>
+        function toggleMeasurements(id) {
+            console.log('toggleMeasurements called with id:', id);
+            var measurements = document.getElementById(id);
+            if (measurements.style.display === "none") {
+                measurements.style.display = "block";
+            } else {
+                measurements.style.display = "none";
+            }
+        }
+    </script>
+{% endblock %}

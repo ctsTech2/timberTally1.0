@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Project</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
     <h1>Add Project</h1>
     <form method="POST">
         {{ form.hidden_tag() }}
         {{ form.name.label }} {{ form.name() }}
         {{ form.submit() }}
     </form>
-    <a href="/projects">Back to Projects</a>
-</body>
-</html>
+    <a href="{{ url_for('projects') }}">Back to Projects</a>
+{% endblock %}

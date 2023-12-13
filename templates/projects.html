@@ -4,7 +4,9 @@
     {% for project in projects %}
         <!-- Debug line to print out the project id -->
         <!-- <p>Project ID: {{ project.id }}</p> -->
-        <h2 class="project-name" onclick="toggleMeasurements('{{ project.id }}')">{{ project.name }}</h2>
+        <h2 class="project-name" onclick="toggleMeasurements('{{ project.id }}')">
+            <a href="{{ url_for('project_detail', project_id=project.id) }}">{{ project.name }}</a>
+        </h2>
         <div id="{{ project.id }}" style="display: none;">
             {% for measurement in project.measurements %}
                 <p>Footings LF: {{ measurement.footings_lf }}</p>
@@ -20,7 +22,7 @@
                 <p>Outside Wall SF: {{ measurement.outside_wall_sf }}</p>
                 <p>Gable SF: {{ measurement.gable_sf }}</p>
                 <p>Roof Perimeter LF: {{ measurement.roof_perimeter_lf }}</p>
-            <p>Roof SF: {{ measurement.roof_sf }}</p>
+                <p>Roof SF: {{ measurement.roof_sf }}</p>
             {% endfor %}
         </div>
         <form action="{{ url_for('delete_project', id=project.id) }}" method="POST">

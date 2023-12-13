@@ -15,7 +15,7 @@ app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 
 # Import your models here
-from models import Measurement
+from models import Measurement, LumberQuantity  # Make sure to import the LumberQuantity model
 
 # Create the database tables
 with app.app_context():

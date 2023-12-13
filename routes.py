@@ -2,7 +2,8 @@ import logging
 import sys
 from app import app, db
 from forms import MeasurementForm, ProjectForm
-from models import Measurement, Project
+from models import Measurement, Project, LumberQuantity
+from lumber_calculations import calculate_all_categories
 from flask import render_template, redirect, url_for
 from sqlalchemy.orm import joinedload
 
@@ -38,6 +39,21 @@ def measurements(project_id):
         )
         db.session.add(measurement)
         db.session.commit()
+
+        # Calculate lumber quantities
+        measurements_dict = form.data
+        lumber_quantities = calculate_all_categories(measurements_dict)
+        for category, items in lumber_quantities.items():
+            for item, quantity in items.items():
+                lumber_quantity = LumberQuantity(
+                    category=category,
+                    item=item,
+                    quantity=quantity,
+                    project_id=project.id
+                )
+                db.session.add(lumber_quantity)
+        db.session.commit()
+
         return redirect(url_for('projects'))
     measurements = Measurement.query.filter_by(project_id=project.id).all()
     return render_template('measurements.html', form=form, project=project, measurements=measurements)
@@ -46,6 +62,11 @@ def measurements(project_id):
 def projects():
     projects = Project.query.all()
     return render_template('projects.html', projects=projects)
+
+@app.route('/project/<int:project_id>')
+def project_detail(project_id):
+    project = Project.query.get_or_404(project_id)
+    return render_template('project_detail.html', project=project)
 
 @app.route('/add_project', methods=['GET', 'POST'])
 def add_project():

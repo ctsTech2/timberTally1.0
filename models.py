@@ -4,6 +4,7 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     measurements = db.relationship('Measurement', backref='project', lazy=True)
+    lumber_quantities = db.relationship('LumberQuantity', backref='project', lazy=True, cascade='all, delete-orphan')
 
 class Measurement(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -22,3 +23,13 @@ class Measurement(db.Model):
     gable_sf = db.Column(db.Float)
     roof_perimeter_lf = db.Column(db.Float)
     roof_sf = db.Column(db.Float)
+
+class LumberQuantity(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String(64), nullable=False)
+    item = db.Column(db.String(64), nullable=False)
+    quantity = db.Column(db.Float, nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+
+    def __repr__(self):
+        return f'<LumberQuantity {self.category} {self.item} {self.quantity}>'

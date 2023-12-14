@@ -42,7 +42,7 @@ def measurements(project_id):
 
         # Calculate lumber quantities
         measurements = Measurement.query.filter_by(project_id=project.id).all()
-        categories, costs = calculate_all_categories(measurements)
+        categories, costs, total_costs = calculate_all_categories(measurements)
         for category, items in categories.items():
             for item, quantity in items.items():
                 lumber_quantity = LumberQuantity(
@@ -67,8 +67,8 @@ def projects():
 def project_detail(project_id):
     project = Project.query.get_or_404(project_id)
     measurements = Measurement.query.filter_by(project_id=project.id).all()
-    categories, costs = calculate_all_categories(measurements)
-    return render_template('project_detail.html', project=project, categories=categories, costs=costs)
+    categories, costs, total_costs = calculate_all_categories(measurements)
+    return render_template('project_detail.html', project=project, categories=categories, costs=costs, total_costs=total_costs)
 
 @app.route('/add_project', methods=['GET', 'POST'])
 def add_project():

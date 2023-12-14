@@ -26,16 +26,36 @@
             <li>{{ category }}</li>
             <ul>
             {% for item, quantity in items.items() %}
-                <li>{{ item }}: {{ quantity }}</li>
+                <li>{{ item }}: {{ quantity }} units</li>
+                {% if costs.get(category) and costs[category].get(item) %}
+                    <li>Cost per item: {{ costs[category][item] }} dollars</li>
+                {% else %}
+                    <li>Cost per item: not available</li>
+                {% endif %}
             {% endfor %}
             </ul>
         {% endfor %}
     </ul>
 
-    <h2>Costs</h2>
+    <h2>Total Costs</h2>
     <ul>
-        {% for category, cost in costs.items() %}
-            <li>{{ category }}: {{ cost }}</li>
+        {% for category, items in categories.items() %}
+            <li>{{ category }}</li>
+            <ul>
+            {% for item, quantity in items.items() %}
+                <li>{{ item }}: {{ quantity }} units</li>
+                {% if costs.get(category) and costs[category].get(item) %}
+                    <li>Cost per item: {{ costs[category][item] }} dollars</li>
+                {% else %}
+                    <li>Cost per item: not available</li>
+                {% endif %}
+            {% endfor %}
+            {% if total_costs.get(category) %}
+                <li>Total cost: {{ total_costs[category] }} dollars</li>
+            {% else %}
+                <li>Total cost: not available</li>
+            {% endif %}
+            </ul>
         {% endfor %}
     </ul>
 {% endblock %}

@@ -109,6 +109,10 @@ def calculate_all_categories(measurements_list):
         foundation_cost = sum(quantity * prices[item] for item, quantity in foundation.items())     
         # other categories...
 
+        # Calculate cost for each item in each category
+        foundation_costs = {item: quantity * prices[item] for item, quantity in foundation.items()}
+        # other categories...
+
         categories = {
             'Foundation': foundation,
             # 'Floors': floors,
@@ -123,7 +127,7 @@ def calculate_all_categories(measurements_list):
         }
 
         costs = {
-            'Foundation Cost': foundation_cost,
+            'Foundation': foundation_costs,
             # 'Floors Cost': floors_cost,
             # 'Decking Cost': decking_cost,
             # 'Walls Cost': walls_cost,
@@ -134,5 +138,18 @@ def calculate_all_categories(measurements_list):
             # 'Paint Cost': paint_cost,
             # 'Floor Coverings Cost': floor_coverings_cost,
         }
-    
-    return categories, costs
+
+        total_costs = {
+            'Foundation': sum(foundation_costs.values()),
+            # 'Floors': sum(floors_costs.values()),
+            # 'Decking': sum(decking_costs.values()),
+            # 'Walls': sum(walls_costs.values()),
+            # 'Roof': sum(roof_costs.values()),
+            # 'Insulation': sum(insulation_costs.values()),
+            # 'Drywall': sum(drywall_costs.values()),
+            # 'Trim': sum(trim_costs.values()),
+            # 'Paint': sum(paint_costs.values()),
+            # 'Floor Coverings': sum(floor_coverings_costs.values()),
+}
+
+    return categories, costs, total_costs

@@ -22,8 +22,20 @@
 
     <h2>Lumber Quantities</h2>
     <ul>
-    {% for lumber_quantity in project.lumber_quantities %}
-        <li>{{ lumber_quantity.category }}: {{ lumber_quantity.item }}: {{ lumber_quantity.quantity }}</li>
-    {% endfor %}
+        {% for category, items in categories.items() %}
+            <li>{{ category }}</li>
+            <ul>
+            {% for item, quantity in items.items() %}
+                <li>{{ item }}: {{ quantity }}</li>
+            {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+
+    <h2>Costs</h2>
+    <ul>
+        {% for category, cost in costs.items() %}
+            <li>{{ category }}: {{ cost }}</li>
+        {% endfor %}
     </ul>
 {% endblock %}

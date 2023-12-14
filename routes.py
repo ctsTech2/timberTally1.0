@@ -41,9 +41,9 @@ def measurements(project_id):
         db.session.commit()
 
         # Calculate lumber quantities
-        measurements_dict = form.data
-        lumber_quantities = calculate_all_categories(measurements_dict)
-        for category, items in lumber_quantities.items():
+        measurements = Measurement.query.filter_by(project_id=project.id).all()
+        categories, costs = calculate_all_categories(measurements)
+        for category, items in categories.items():
             for item, quantity in items.items():
                 lumber_quantity = LumberQuantity(
                     category=category,
@@ -66,7 +66,9 @@ def projects():
 @app.route('/project/<int:project_id>')
 def project_detail(project_id):
     project = Project.query.get_or_404(project_id)
-    return render_template('project_detail.html', project=project)
+    measurements = Measurement.query.filter_by(project_id=project.id).all()
+    categories, costs = calculate_all_categories(measurements)
+    return render_template('project_detail.html', project=project, categories=categories, costs=costs)
 
 @app.route('/add_project', methods=['GET', 'POST'])
 def add_project():
